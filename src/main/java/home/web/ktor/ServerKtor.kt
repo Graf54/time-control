@@ -9,6 +9,7 @@ import io.ktor.freemarker.FreeMarkerContent
 import io.ktor.http.Parameters
 import io.ktor.request.receiveParameters
 import io.ktor.response.respond
+import io.ktor.response.respondRedirect
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
@@ -69,7 +70,7 @@ fun Application.module() {
                                     ?: "", postParameters["city"] ?: "")
                     }
                 }
-                call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to dao.getAllEmployees())))
+                call.respondRedirect("/")
             }
         }
         route("/delete") {
@@ -77,9 +78,11 @@ fun Application.module() {
                 val id = call.request.queryParameters["id"]
                 if (id != null) {
                     dao.deleteEmployee(id.toInt())
-                    call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to dao.getAllEmployees())))
+                    call.respondRedirect("/")
+//                    call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to dao.getAllEmployees())))
                 }
             }
+
         }
     }
 }
