@@ -12,16 +12,32 @@
         </thead>
         <tbody>
         <#list employees as emp>
-            <tr>
-                <td>${emp.id}</td>
-                <td>${emp.name}</td>
-                <td>${emp.email}</td>
-                <td>${emp.city}</td>
-                <td>
-                    <a href="/employee?action=edit&id=${emp.id}" class="btn btn-secondary float-right mr-2" role="button">Edit</a>
-                    <a href="/delete?id=${emp.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
-                </td>
-            </tr>
+            <#if emp.id == 1>
+                <tr>
+                    <td bgcolor="#7fff00">${emp.id}</td>
+                    <td>${emp.name}</td>
+                    <td>${emp.email}</td>
+                    <td>${emp.city}</td>
+                    <td>
+                        <a href="/employee?action=edit&id=${emp.id}" class="btn btn-secondary float-right mr-2"
+                           role="button">Edit</a>
+                        <a href="/delete?id=${emp.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
+                    </td>
+                </tr>
+            <#else >
+                <tr>
+                    <td>${emp.id}</td>
+                    <td>${emp.name}</td>
+                    <td>${emp.email}</td>
+                    <td>${emp.city}</td>
+                    <td>
+                        <a href="/employee?action=edit&id=${emp.id}" class="btn btn-secondary float-right mr-2"
+                           role="button">Edit</a>
+                        <a href="/delete?id=${emp.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
+                    </td>
+                </tr>
+            </#if>
+
         </#list>
         </tbody>
     </table>
