@@ -59,8 +59,7 @@ fun Application.module() {
             }
             post {
                 val postParameters: Parameters = call.receiveParameters()
-                val action = postParameters["action"] ?: "new"
-                when (action) {
+                when (postParameters["action"] ?: "new") {
                     "new" -> dao.createEmployee(postParameters["name"] ?: "", postParameters["email"]
                             ?: "", postParameters["city"] ?: "")
                     "edit" -> {

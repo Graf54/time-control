@@ -13,9 +13,9 @@ object DaoEmployees {
     }
 
     fun getId(): Int {
-        var id = 1
+        var id = 0
         list.maxBy { it.id }?.let { id = it.id }
-        return id
+        return ++id
     }
 
     fun getEmployee(idEmpl: Int): Employee {
