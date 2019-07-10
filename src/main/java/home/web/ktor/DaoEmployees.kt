@@ -4,10 +4,10 @@ object DaoEmployees {
     val list = ArrayList<Employee>()
     fun getAllEmployees(): List<Employee> {
         if (list.isEmpty()) {
-            list.add(Employee(1, "John", "hoho@mail.ru", "Novosibirsk"))
-            list.add(Employee(2, "Smart", "hoho@mail.ru", "Novosibirsk"))
-            list.add(Employee(3, "Not", "hoho@mail.ru", "Novosibirsk"))
-            list.add(Employee(4, "Bak", "hoho@mail.ru", "Novosibirsk"))
+            createEmployee("John", "hoho@mail.ru", "Novosibirsk")
+            createEmployee("Smart", "hoho@mail.ru", "Novosibirsk")
+            createEmployee("Not", "hoho@mail.ru", "Novosibirsk")
+            createEmployee("Bak", "hoho@mail.ru", "Novosibirsk")
         }
         return list
     }
@@ -23,7 +23,7 @@ object DaoEmployees {
     }
 
     fun createEmployee(name: String, email: String, city: String) {
-        list.add(Employee(getId(), name, email, city))
+        list.add(Employee(getId(), name, email, city, 0))
     }
 
     fun updateEmployee(id: Int, name: String, email: String, city: String) {
@@ -40,4 +40,4 @@ object DaoEmployees {
 }
 
 data class Employee(val id: Int, var name: String,
-                    var email: String, var city: String)
+                    var email: String, var city: String, var edit: Int = 0)
