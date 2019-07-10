@@ -1,4 +1,4 @@
-<#macro mainLayout title="Welcome to Employee Database">
+<#macro mainLayout title="List of processes">
     <!doctype html>
     <html lang="en">
     <head>
@@ -12,7 +12,7 @@
     <body>
     <div class="container">
         <div class="row m-1">
-            <h3>Employees</h3>
+            <h3>Processes</h3>
         </div>
         <div class="row m-1">
             <#nested/>

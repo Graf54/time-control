@@ -5,38 +5,35 @@
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">City</th>
+            <th scope="col">Created</th>
+            <th scope="col">Time Limit</th>
+            <th scope="col">Time Use</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <#list employees as emp>
-            <#if idEdit==emp.id>
+        <#list processes as proc>
+            <#if idEdit==proc.id>
                 <form action="/edit" method="post">
 
-                    <input type="hidden" id="id" name="id" value="${(emp.id)!}">
+                    <input type="hidden" id="id" name="id" value="${(proc.id)!}">
                     <tr>
-                        <td>${emp.id}</td>
+                        <td>${proc.id}</td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"
-                                       value="${(emp.name)!}">
+                                       value="${(proc.name)!}">
                             </div>
                         </td>
+                        <td>${proc.added}</td>
                         <td>
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" name="email"
-                                       placeholder="Enter Email"
-                                       value="${(emp.email)!}">
+                                <input type="number" class="form-control" id="email" name="email"
+                                       placeholder="Enter Limit"
+                                       value="${(proc.timeLimit)!}">
                             </div>
                         </td>
-                        <td>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="city" name="city" placeholder="Enter City"
-                                       value="${(emp.city)!}">
-                            </div>
-                        </td>
+                        <td>${proc.timeUse}</td>
                         <td>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </td>
@@ -45,14 +42,15 @@
 
             <#else >
                 <tr>
-                    <td>${emp.id}</td>
-                    <td>${emp.name}</td>
-                    <td>${emp.email}</td>
-                    <td>${emp.city}</td>
+                    <td>${proc.id}</td>
+                    <td>${proc.name}</td>
+                    <td>${proc.added?string["yyyy-MM-dd hh:mm:ss"]}</td>
+                    <td>${proc.timeLimit}</td>
+                    <td>${proc.timeUse}</td>
                     <td>
-                        <a href="/edit?id=${emp.id}" class="btn btn-secondary float-right mr-2"
+                        <a href="/edit?id=${proc.id}" class="btn btn-secondary float-right mr-2"
                            role="button">Edit</a>
-                        <a href="/delete?id=${emp.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
+                        <a href="/delete?id=${proc.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
                     </td>
                 </tr>
             </#if>
@@ -63,7 +61,7 @@
 
     <div class="container">
         <div class="row">
-            <h3>New Employee</h3>
+            <h3>New process</h3>
         </div>
     </div>
 
@@ -71,8 +69,7 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">City</th>
+            <th scope="col">TimeLimit</th>
             <th></th>
         </tr>
         </thead>
@@ -87,14 +84,8 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email"
-                               placeholder="Enter Email"
-                               value="">
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter City"
+                        <input type="number" class="form-control" id="email" name="email"
+                               placeholder="Enter time limit of day"
                                value="">
                     </div>
                 </td>

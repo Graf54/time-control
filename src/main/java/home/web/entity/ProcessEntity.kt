@@ -7,6 +7,5 @@ data class ProcessEntity(
     var name: String,
     var added: DateTime,
     var timeLimit: Int,
-    var timeUse: Int,
-    var dbHasName: Int = 0
+    var timeUse: Int
 )

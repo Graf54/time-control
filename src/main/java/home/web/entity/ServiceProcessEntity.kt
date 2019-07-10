@@ -25,18 +25,17 @@ object ServiceProcessEntity {
             while (all.hasNext()) {
                 val next = all.next()
                 val findFirst =
-                    ProcessDay.find { ProcessDays.day eq DateTime.now() and (ProcessDays.day eq DateTime.now()) }
-                        .firstOrNull()
+                        ProcessDay.find { ProcessDays.day eq DateTime.now() and (ProcessDays.day eq DateTime.now()) }
+                                .firstOrNull()
                 val minuteUse = findFirst?.minutes ?: 0
                 list.add(
-                    ProcessEntity(
-                        next.id.value,
-                        next.name,
-                        next.added,
-                        next.limitMinuteOfDay,
-                        minuteUse,
-                        0
-                    )
+                        ProcessEntity(
+                                next.id.value,
+                                next.name,
+                                next.added,
+                                next.limitMinuteOfDay,
+                                minuteUse
+                        )
                 )
             }
         }
@@ -53,9 +52,9 @@ object ServiceProcessEntity {
 
     fun getProcById(id: Int): ProcessEntity {
         return list.stream()
-            .filter { (id1) -> id1 == id }
-            .findFirst()
-            .orElse(null)
+                .filter { (id1) -> id1 == id }
+                .findFirst()
+                .orElse(null)
     }
 
     fun update(entity: ProcessEntity) {

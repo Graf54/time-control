@@ -1,6 +1,8 @@
 package home.web.ktor
 
 import freemarker.cache.ClassTemplateLoader
+import home.web.entity.ProcessEntity
+import home.web.entity.ServiceProcessEntity
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -16,6 +18,7 @@ import io.ktor.routing.route
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.joda.time.DateTime
 
 fun main() {
     ServerKtor().start(14000)
@@ -36,14 +39,20 @@ fun Application.module() {
     routing {
         route("/") {
             get {
-                call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to DaoEmployees.getAllEmployees(), "idEdit" to -1)))
+                call.respond(FreeMarkerContent("index.ftl", mapOf("processes" to ServiceProcessEntity.getList(), "idEdit" to -1)))
             }
         }
         route("/new") {
             post {
                 val postParameters: Parameters = call.receiveParameters()
-                DaoEmployees.createEmployee(postParameters["name"] ?: "", postParameters["email"]
-                        ?: "", postParameters["city"] ?: "")
+                ServiceProcessEntity.add(
+                        ProcessEntity(
+                                0,
+                                postParameters["name"] ?: "",
+                                DateTime.now(),
+                                postParameters["limit"]?.toInt() ?: 0,
+                                0)
+                )
                 call.respondRedirect("/")
             }
         }
@@ -51,23 +60,17 @@ fun Application.module() {
             get {
                 val id = call.request.queryParameters["id"]
                 if (id != null) {
-                    val intId = id.toInt()
-                    val employee = DaoEmployees.getEmployee(intId)
-                    employee.edit = 1
-                    call.respond(FreeMarkerContent("index.ftl",
-                            mapOf("employees" to DaoEmployees.getAllEmployees(),
-                                    "idEdit" to id.toInt())))
+                    call.respond(FreeMarkerContent("index.ftl", mapOf("processes" to ServiceProcessEntity.getList(), "idEdit" to id.toInt())))
                 }
             }
             post {
                 val postParameters: Parameters = call.receiveParameters()
                 val id = postParameters["id"]
                 if (id != null) {
-                    val employee = DaoEmployees.getEmployee(id.toInt())
-                    employee.name = postParameters["name"] ?: ""
-                    employee.email = postParameters["email"] ?: ""
-                    employee.city = postParameters["city"] ?: ""
-                    employee.edit = 0
+                    val entity = ServiceProcessEntity.getProcById(id.toInt())
+                    entity.name = postParameters["name"] ?: ""
+                    entity.timeLimit = postParameters["timeLimit"]?.toInt() ?: 0
+                    ServiceProcessEntity.update(entity)
                 }
                 call.respondRedirect("/")
             }
@@ -76,7 +79,7 @@ fun Application.module() {
             get {
                 val id = call.request.queryParameters["id"]
                 if (id != null) {
-                    DaoEmployees.deleteEmployee(id.toInt())
+                    ServiceProcessEntity.delete(id.toInt())
                     call.respondRedirect("/")
 //                    call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to dao.getAllEmployees())))
                 }
