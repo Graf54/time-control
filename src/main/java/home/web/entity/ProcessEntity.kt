@@ -8,8 +8,5 @@ data class ProcessEntity(
     var added: DateTime,
     var timeLimit: Int,
     var timeUse: Int,
-    var editCode: Int = 0,
     var dbHasName: Int = 0
-) {
-    constructor() : this(0, "", DateTime.now(), 0, 0, 0)
-}
+)

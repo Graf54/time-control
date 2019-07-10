@@ -36,40 +36,14 @@ fun Application.module() {
     routing {
         route("/") {
             get {
-                call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to DaoEmployees.getAllEmployees())))
+                call.respond(FreeMarkerContent("index.ftl", mapOf("employees" to DaoEmployees.getAllEmployees(), "idEdit" to -1)))
             }
         }
-        route("/employee") {
-            get {
-                val action = (call.request.queryParameters["action"] ?: "new")
-                when (action) {
-                    "new" -> call.respond(FreeMarkerContent("employee.ftl",
-                            mapOf("action" to action)))
-                    "edit" -> {
-                        val id = call.request.queryParameters["id"]
-                        if (id != null) {
-                            val employee = DaoEmployees.getEmployee(id.toInt())
-                            employee.edit = 1
-                            call.respondRedirect("/")
-                            /*call.respond(FreeMarkerContent("employee.ftl",
-                                    mapOf("employee" to dao.getEmployee(id.toInt()),
-                                            "action" to action)))*/
-                        }
-                    }
-                }
-            }
+        route("/new") {
             post {
                 val postParameters: Parameters = call.receiveParameters()
-                when (postParameters["action"] ?: "new") {
-                    "new" -> DaoEmployees.createEmployee(postParameters["name"] ?: "", postParameters["email"]
-                            ?: "", postParameters["city"] ?: "")
-                    "edit" -> {
-                        val id = postParameters["id"]
-                        if (id != null)
-                            DaoEmployees.updateEmployee(id.toInt(), postParameters["name"] ?: "", postParameters["email"]
-                                    ?: "", postParameters["city"] ?: "")
-                    }
-                }
+                DaoEmployees.createEmployee(postParameters["name"] ?: "", postParameters["email"]
+                        ?: "", postParameters["city"] ?: "")
                 call.respondRedirect("/")
             }
         }
@@ -77,9 +51,12 @@ fun Application.module() {
             get {
                 val id = call.request.queryParameters["id"]
                 if (id != null) {
-                    val employee = DaoEmployees.getEmployee(id.toInt())
+                    val intId = id.toInt()
+                    val employee = DaoEmployees.getEmployee(intId)
                     employee.edit = 1
-                    call.respondRedirect("/")
+                    call.respond(FreeMarkerContent("index.ftl",
+                            mapOf("employees" to DaoEmployees.getAllEmployees(),
+                                    "idEdit" to id.toInt())))
                 }
             }
             post {

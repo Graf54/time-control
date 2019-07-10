@@ -50,7 +50,7 @@
                     <td>${emp.email}</td>
                     <td>${emp.city}</td>
                     <td>
-                        <a href="/employee?action=edit&id=${emp.id}" class="btn btn-secondary float-right mr-2"
+                        <a href="/edit?id=${emp.id}" class="btn btn-secondary float-right mr-2"
                            role="button">Edit</a>
                         <a href="/delete?id=${emp.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
                     </td>
@@ -63,14 +63,13 @@
 
     <div class="container">
         <div class="row">
-            <a href="/employee?action=new" class="btn btn-secondary float-right" role="button">New Employee</a>
+            <h3>New Employee</h3>
         </div>
     </div>
 
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">City</th>
@@ -78,13 +77,8 @@
         </tr>
         </thead>
         <tbody>
-        <form action="/employee" method="post">
-
-
-            <#--                    <input type="hidden" id="action" name="action" value="${action}">-->
-            <#--                    <input type="hidden" id="id" name="id" value="${(emp.id)!}">-->
+        <form action="/new" method="post">
             <tr>
-                <td></td>
                 <td>
                     <div class="form-group">
                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"

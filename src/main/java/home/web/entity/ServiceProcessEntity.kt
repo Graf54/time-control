@@ -46,7 +46,6 @@ object ServiceProcessEntity {
     fun add(entity: ProcessEntity) {
         val create = Processes.create(entity.name, entity.timeLimit)
         entity.id = create.id.value
-        entity.editCode = 0
         entity.added = create.added
         entity.timeUse = 0
         list.add(entity)
