@@ -8,7 +8,8 @@
             <th scope="col">Created</th>
             <th scope="col">Time Limit</th>
             <th scope="col">Time Use</th>
-            <th></th>
+            <th scope="col">Option</th>
+            <th scope="col">History</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
                         <td>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </td>
+                        <td></td>
                     </tr>
                 </form>
 
@@ -48,9 +50,10 @@
                     <td>${proc.timeLimit}</td>
                     <td>${proc.timeUse}</td>
                     <td>
-                        <a href="/edit?id=${proc.id}" class="btn btn-secondary float-right mr-2"
-                           role="button">Edit</a>
                         <a href="/delete?id=${proc.id}" class="btn btn-danger float-right mr-2" role="button">Delete</a>
+                        <a href="/edit?id=${proc.id}" class="btn btn-secondary float-right mr-2" role="button">Edit</a>
+                    </td>
+                    <td><a href="/history?id=${proc.id}" class="btn btn-secondary float-right mr-2" role="button">History</a>
                     </td>
                 </tr>
             </#if>

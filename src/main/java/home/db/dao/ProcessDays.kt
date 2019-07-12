@@ -2,14 +2,11 @@ package home.db.dao
 
 import home.db.entity.MyProcess
 import home.db.entity.ProcessDay
-import org.jetbrains.exposed.dao.IntIdTable
-import org.jetbrains.exposed.sql.ReferenceOption
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
-import org.joda.time.DateTime
 import home.web.entity.ProcessEntity
+import org.jetbrains.exposed.dao.IntIdTable
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 
 object ProcessDays : IntIdTable() {
     val processId = reference("process_id", Processes, onDelete = ReferenceOption.CASCADE)
@@ -38,7 +35,11 @@ object ProcessDays : IntIdTable() {
     }
 
     fun getAllByProcessId(idProc: Int, limit: Int, offset: Int): List<ProcessDay> {
-        return transaction { ProcessDay.find { processId eq idProc }.limit(limit, offset).toList() }
+        return transaction { ProcessDay.find { processId eq idProc }.limit(limit, offset).orderBy(day to SortOrder.ASC).toList() }
+    }
+
+    fun getCountByProcessId(idProc: Int): Int {
+        return transaction { ProcessDay.find { processId eq idProc }.count() }
     }
 
     fun exist(processEntity: ProcessEntity): Boolean {

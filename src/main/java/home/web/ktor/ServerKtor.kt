@@ -6,6 +6,7 @@ import home.web.entity.ServiceProcessEntity
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.application.log
 import io.ktor.freemarker.FreeMarker
 import io.ktor.freemarker.FreeMarkerContent
 import io.ktor.http.Parameters
@@ -19,6 +20,7 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.joda.time.DateTime
+import kotlin.system.exitProcess
 
 fun main() {
     ServerKtor().start(14000)
@@ -78,6 +80,29 @@ fun Application.module() {
                     ServiceProcessEntity.update(entity)
                 }
                 call.respondRedirect("/")
+            }
+        }
+        route("/close") {
+            get {
+                //todo make normal page
+                call.respond("<b>Programm is close</b>")
+
+                log.info("Close program from web")
+                exitProcess(0)
+            }
+        }
+        route("/history") {
+            get {
+                val id = call.request.queryParameters["id"]
+                if (id != null) {
+                    val procId = id.toInt()
+                    val entity = ServiceProcessEntity.getProcById(procId)
+                    val history = ServiceProcessEntity.getHistory(procId, 100, 0)
+                    val count = ServiceProcessEntity.getCountHistory(procId)
+                    //todo add leaf
+                    call.respond(FreeMarkerContent("history.ftl", mapOf("name" to entity.name, "history" to history, "count" to count)))
+
+                }
             }
         }
         route("/delete") {

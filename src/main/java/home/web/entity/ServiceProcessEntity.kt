@@ -70,5 +70,13 @@ object ServiceProcessEntity {
         list.remove(getProcById(id))
     }
 
+    fun getHistory(procId: Int, limit: Int, offset: Int): List<ProcessDay> {
+        return ProcessDays.getAllByProcessId(procId, limit, offset)
+    }
+
+    fun getCountHistory(procId: Int): Int {
+        return ProcessDays.getCountByProcessId(procId)
+    }
+
 
 }
