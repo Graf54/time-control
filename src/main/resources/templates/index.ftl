@@ -28,7 +28,7 @@
                         <td>${proc.added}</td>
                         <td>
                             <div class="form-group">
-                                <input type="number" class="form-control" id="email" name="email"
+                                <input type="number" class="form-control" id="timeLimit" name="timeLimit"
                                        placeholder="Enter Limit"
                                        value="${(proc.timeLimit)!}">
                             </div>
@@ -44,7 +44,7 @@
                 <tr>
                     <td>${proc.id}</td>
                     <td>${proc.name}</td>
-                    <td>${proc.added?string["yyyy-MM-dd hh:mm:ss"]}</td>
+                    <td>${proc.added.toString('HH:mm:ss dd.MM.yy')}</td>
                     <td>${proc.timeLimit}</td>
                     <td>${proc.timeUse}</td>
                     <td>
@@ -84,7 +84,7 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="number" class="form-control" id="email" name="email"
+                        <input type="number" class="form-control" id="timeLimit" name="timeLimit"
                                placeholder="Enter time limit of day"
                                value="">
                     </div>

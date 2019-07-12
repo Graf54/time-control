@@ -45,14 +45,18 @@ fun Application.module() {
         route("/new") {
             post {
                 val postParameters: Parameters = call.receiveParameters()
-                ServiceProcessEntity.add(
-                        ProcessEntity(
-                                0,
-                                postParameters["name"] ?: "",
-                                DateTime.now(),
-                                postParameters["limit"]?.toInt() ?: 0,
-                                0)
-                )
+                try {
+                    ServiceProcessEntity.add(
+                            ProcessEntity(
+                                    0,
+                                    postParameters["name"] ?: "",
+                                    DateTime.now(),
+                                    postParameters["timeLimit"]?.toInt() ?: 0,
+                                    0)
+                    )
+                } catch (e: Exception) {
+                    //todo add message
+                }
                 call.respondRedirect("/")
             }
         }
@@ -60,6 +64,7 @@ fun Application.module() {
             get {
                 val id = call.request.queryParameters["id"]
                 if (id != null) {
+                    //todo check if name exist
                     call.respond(FreeMarkerContent("index.ftl", mapOf("processes" to ServiceProcessEntity.getList(), "idEdit" to id.toInt())))
                 }
             }
